@@ -37,7 +37,7 @@ public class TaskController {
 
     @DeleteMapping(value = "deleteTask/{taskId}")
     public void deleteTask(@PathVariable Long taskId){
-
+        dbService.deleteTask(taskId);
     }
 
     @PutMapping(value = "updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
