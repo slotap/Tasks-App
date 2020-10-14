@@ -7,7 +7,6 @@ import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +31,8 @@ public class TaskController {
 
     @GetMapping(value = "getTask/{taskId}")
     public TaskDto getTask(@PathVariable Long taskId){
-        return new TaskDto((long)1,"Test Task","Test Task content");
+        Task task = dbService.findTaskById(taskId);
+        return taskMapper.mapToTask(task);
     }
 
     @DeleteMapping(value = "deleteTask/{taskId}")
