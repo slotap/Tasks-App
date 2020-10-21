@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/task")
 public class TaskController {
@@ -22,7 +23,6 @@ public class TaskController {
         this.taskMapper = taskMapper;
         this.dbService = dbService;
     }
-
 
     @GetMapping(value = "getTasks")
     public List<TaskDto> getTasks(){
@@ -37,7 +37,7 @@ public class TaskController {
 
     @DeleteMapping(value = "deleteTask/{taskId}")
     public void deleteTask(@PathVariable Long taskId){
-
+        dbService.deleteTask(taskId);
     }
 
     @PutMapping(value = "updateTask", consumes = MediaType.APPLICATION_JSON_VALUE)
