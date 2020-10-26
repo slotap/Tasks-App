@@ -30,6 +30,7 @@ public class TaskController {
         return taskMapper.mapToTaskDtoList(tasks);
     }
 
+
     @GetMapping(value = "getTask/{taskId}")
     public TaskDto getTask(@PathVariable Long taskId)throws TaskNotFoundException{
         return taskMapper.mapToTask(dbService.getTask(taskId).orElseThrow(TaskNotFoundException::new));
