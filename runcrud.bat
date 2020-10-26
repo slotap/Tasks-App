@@ -11,6 +11,7 @@ if "%ERRORLEVEL%" == "0" goto stoptomcat
 echo Cannot rename file
 goto fail
 
+
 :stoptomcat
 call %CATALINA_HOME%\bin\shutdown.bat
 
