@@ -1,4 +1,3 @@
-/*
 package com.crud.tasks.config;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -19,4 +18,3 @@ class DatasourceConfig {
                 .build();
     }
 }
-*/
