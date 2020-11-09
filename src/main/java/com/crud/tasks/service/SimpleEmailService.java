@@ -17,7 +17,7 @@ public class SimpleEmailService {
 
     private final JavaMailSender javaMailSender;
 
-    public void send(final Mail mail) {
+    public void send(final Mail mail) throws Exception {
         log.info("Starting email preparation");
         try {
             SimpleMailMessage mailMessage = createMailMessage(mail);
@@ -28,9 +28,9 @@ public class SimpleEmailService {
         }
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail) {
+    private SimpleMailMessage createMailMessage(final Mail mail) throws Exception {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(Optional.ofNullable(mail.getMailTo()).orElse("Email address incorrect"));
+        mailMessage.setTo(Optional.ofNullable(mail.getMailTo()).orElseThrow(() -> new Exception("Email address incorrect")));
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
         Optional.ofNullable(mail.getToCc()).ifPresent(mailMessage::setCc);
