@@ -10,8 +10,11 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Getter
 public class Mail {
+    @NotNull
     private final String mailTo;
+    @NotNull
     private final String subject;
+    @NotNull
     private final String message;
     private final String toCc;
 }
