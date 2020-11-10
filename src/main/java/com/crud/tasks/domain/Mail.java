@@ -7,7 +7,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 
-@Builder
+@Builder(access = AccessLevel.PUBLIC)
 @Getter
 public class Mail {
     @NotNull
