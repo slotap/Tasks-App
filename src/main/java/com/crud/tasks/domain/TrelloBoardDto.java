@@ -30,4 +30,8 @@ public class TrelloBoardDto {
     public String getId() {
         return id;
     }
+
+    public List<TrelloListDto> getLists() {
+        return lists;
+    }
 }
