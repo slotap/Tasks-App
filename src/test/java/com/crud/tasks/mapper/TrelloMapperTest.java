@@ -20,8 +20,8 @@ class TrelloMapperTest {
 
     List<TrelloList> trelloLists = new ArrayList<>();
     List<TrelloListDto> trelloListDtoList = new ArrayList<>();
-    TrelloCard trelloCard;
-    TrelloCardDto trelloCardDto;
+    TrelloCard trelloCard= new TrelloCard("card","test Card","a","1");
+    TrelloCardDto trelloCardDto = new TrelloCardDto("card","test Card","a","1");
 
     @BeforeEach
     void init(){
@@ -34,9 +34,6 @@ class TrelloMapperTest {
         TrelloListDto testListDto2 = new TrelloListDto("2", "testListDto2",false);
         trelloListDtoList.add(testListDto1);
         trelloListDtoList.add(testListDto2);
-
-        trelloCard = new TrelloCard("card","test Card","a","1");
-        trelloCardDto = new TrelloCardDto("card","test Card","a","1");
     }
 
     @Test

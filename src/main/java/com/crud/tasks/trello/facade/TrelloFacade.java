@@ -16,12 +16,15 @@ import java.util.stream.Collectors;
 public class TrelloFacade {
     public static final Logger LOGGER = LoggerFactory.getLogger(TrelloFacade.class);
 
-    @Autowired
-    private TrelloService trelloService;
-    @Autowired
-    private TrelloMapper trelloMapper;
-    @Autowired
-    private TrelloValidator trelloValidator;
+    private final TrelloService trelloService;
+    private final TrelloMapper trelloMapper;
+    private final TrelloValidator trelloValidator;
+
+    TrelloFacade(final TrelloService trelloService, final TrelloMapper trelloMapper, final TrelloValidator trelloValidator) {
+        this.trelloService = trelloService;
+        this.trelloMapper = trelloMapper;
+        this.trelloValidator = trelloValidator;
+    }
 
     public List<TrelloBoardDto> fetchTrelloBoards(){
         List<TrelloBoard> trelloBoards = trelloMapper.mapToBoards(trelloService.fetchTrelloBoards());
