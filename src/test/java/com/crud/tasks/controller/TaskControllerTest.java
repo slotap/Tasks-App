@@ -1,6 +1,9 @@
 package com.crud.tasks.controller;
 
+import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.mapper.TaskMapper;
+import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -27,14 +30,21 @@ class TaskControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TaskController taskController;
+    private DbService dbService;
+
+    @MockBean
+    private TaskMapper taskMapper;
 
     @Test
     void shouldFetchAllTasks() throws Exception{
         //Given
         List<TaskDto> taskDtoList = new ArrayList<>();
         taskDtoList.add(new TaskDto((long) 1,"testTask","test content"));
-        when(taskController.getTasks()).thenReturn(taskDtoList);
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(new Task((long) 1,"testTask","test content"));
+
+        when(dbService.getAllTasks()).thenReturn(tasks);
+        when(taskMapper.mapToTaskDtoList(tasks)).thenReturn(taskDtoList);
 
         //When & Then
         mockMvc
@@ -49,8 +59,10 @@ class TaskControllerTest {
     @Test
     void shouldFetchOneTask() throws Exception {
         //Given
+        Task task = new Task((long) 1,"testTask","test content");
         TaskDto taskDto = new TaskDto((long) 1,"testTask","test content");
-        when(taskController.getTask((long)1)).thenReturn(taskDto);
+        when(dbService.getTask((long)1)).thenReturn(java.util.Optional.of(task));
+        when(taskMapper.mapToTask(task)).thenReturn(taskDto);
 
         //When & Then
         mockMvc
@@ -73,9 +85,11 @@ class TaskControllerTest {
     @Test
     void shouldUpdateTask() throws Exception{
         //Given
-        TaskDto taskDto = new TaskDto((long) 1,"testTask","test content");
-        TaskDto taskDtoUpdated = new TaskDto((long) 2,"testTaskUpdated","test content updated");
-        when(taskController.updateTask(any(TaskDto.class))).thenReturn(taskDtoUpdated);
+        TaskDto taskDto = new TaskDto((long) 2,"testTask","test content");
+        Task task = new Task((long) 2,"testTask","test content");
+        when(taskMapper.mapToTaskDto(any(TaskDto.class))).thenReturn(task);
+        when(dbService.saveTask(any(Task.class))).thenReturn(task);
+        when(taskMapper.mapToTask(any(Task.class))).thenReturn(taskDto);
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(taskDto);
@@ -88,17 +102,20 @@ class TaskControllerTest {
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("testTaskUpdated")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("test content updated")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("testTask")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("test content")));
     }
 
     @Test
     void shouldCreateTask() throws Exception{
         //Given
-        TaskDto taskDto = new TaskDto((long) 1,"testTask","test content");
+        Task task = new Task((long) 1,"testTask","test content");
+        when(taskMapper.mapToTaskDto(any(TaskDto.class))).thenReturn(task);
+        when(dbService.saveTask(any(Task.class))).thenReturn(task);
+
 
         Gson gson = new Gson();
-        String jsonContent = gson.toJson(taskDto);
+        String jsonContent = gson.toJson(task);
 
         //When & Then
         mockMvc
