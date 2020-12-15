@@ -19,33 +19,32 @@ import java.util.Optional;
 public class SimpleEmailService {
 
     private final JavaMailSender javaMailSender;
-    @Autowired
     private MailCreatorService mailCreatorService;
 
-    public void send(final Mail mail) {
+    public void send(final Mail mail, final MailCreatorService mailCreatorService) {
         log.info("Starting email preparation");
         try {
-            javaMailSender.send(createMimeMessage(mail));
+            javaMailSender.send(createMimeMessage(mail,mailCreatorService));
             log.info("Email has been sent.");
         } catch (MailException mailException) {
             log.error("Failed to process email sending" + mailException.getMessage(), mailException);
         }
     }
 
-    private MimeMessagePreparator createMimeMessage(final Mail mail){
+    private MimeMessagePreparator createMimeMessage(final Mail mail, final MailCreatorService mailCreatorService){
         return  mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.builtTrelloCardEmail(mail.getMessage()),true);
+            messageHelper.setText(mailCreatorService.buildEmail(mail.getMessage()),true);
         };
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail) {
+/*    private SimpleMailMessage createMailMessage(final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mailCreatorService.builtTrelloCardEmail((mail.getMessage())));
         return mailMessage;
-    }
+    }*/
 }
