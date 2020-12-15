@@ -26,7 +26,7 @@ public class EmailScheduler {
     }
 
     //@Scheduled(cron = "0 0 10 * * *")
-   // @Scheduled(fixedDelay = 20000)
+   @Scheduled(fixedDelay = 20000)
     public void sendInformationEmail(){
         simpleEmailService.send(Mail.builder()
                 .mailTo(adminConfig.getAdminMail())
