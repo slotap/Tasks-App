@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class TrelloClientTest {
 
-    //@InjectMocks
     @Autowired
     private TrelloClient trelloClient;
 
