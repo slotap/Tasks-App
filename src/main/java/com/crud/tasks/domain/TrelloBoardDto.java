@@ -34,4 +34,6 @@ public class TrelloBoardDto {
     public List<TrelloListDto> getLists() {
         return lists;
     }
+
+
 }
