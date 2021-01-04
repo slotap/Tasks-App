@@ -5,7 +5,7 @@ echo failed to run runcrud.bat
 goto fail
 
 :startupbrowser
-start chrome http://localhost:8080/crud/v1/task/getTasks
+start chrome http://localhost:8080/crud/v1/tasks
 
 :fail
 echo.
